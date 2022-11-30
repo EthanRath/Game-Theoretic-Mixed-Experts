@@ -30,7 +30,7 @@ from Defenses.TIT.optdefense import OptNet
 from Defenses.Vanilla.vgg import vggethan
 
 from Attacks.attack_utilities import GetFirstCorrectlyOverlappingSamplesBalanced, GetFirstCorrectlyOverlappingSamplesBalancedSingle
-from Attacks.AttackWrappersProtoSAGA import SelfAttentionGradientAttackProto, MIM_EOT_Wrapper, AutoAttackNativePytorch, MIMNativePytorch_cnn
+from Attacks.AttackWrappersProtoSAGA import SelfAttentionGradientAttack_EOT, MIM_EOT_Wrapper, AutoAttackNativePytorch, MIMNativePytorch_cnn
 from Attacks.AttackWrappersWhiteBoxSNN import PGDNativePytorch as PGDSNN
 from Attacks.AttackWrappersWhiteBoxJelly import PGDNativePytorch as PGDJelly
 from Attacks.AttackWrappersWhiteBoxSNN import MIMNativePytorch as MIMSNN
@@ -742,7 +742,7 @@ def RunAttackEnsemble(num, n, k, combinations = []):
 
         torch.cuda.empty_cache()
 
-        advloader = SelfAttentionGradientAttackProto("cuda", .031, .005, 40, models, cleanLoader, 0, 1, 10000, 50.0, advLoader=None, numClasses=10, decay = .5, samples = 4, BaRT = False)
+        advloader = SelfAttentionGradientAttack_EOT("cuda", .031, .005, 40, models, cleanLoader, 0, 1, 10000, 50.0, advLoader=None, numClasses=10, decay = .5, samples = 4)
         torch.cuda.empty_cache()
         xadv, yclean = DMP.DataLoaderToTensor(advloader)
         advloader = DMP.TensorToDataLoader(xadv, yclean)

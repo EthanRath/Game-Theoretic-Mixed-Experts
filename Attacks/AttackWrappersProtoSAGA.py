@@ -84,11 +84,8 @@ def ComputeAutoAttackCheckpoints(nIter):
 def ProjectionS(xAdv, x, epsilonMax, clipMin, clipMax):
     return torch.clamp(torch.min(torch.max(xAdv, x - epsilonMax), x + epsilonMax), clipMin, clipMax)
 
+#Main function to run MIME attack
 def MIM_EOT_Wrapper(device, dataLoader, model, decayFactor, epsilonMax, numSteps, clipMin, clipMax, targeted, tfunc, numSamples, bs, BaRT = False):
-    if BaRT:
-        num_cpus = min( (psutil.cpu_count(logical=False)//2), 8)
-        print("CPUs To Use: ", num_cpus)
-        ray.init(num_cpus=num_cpus, log_to_driver = False)
     xShape = [len(dataLoader.dataset)] + list(DMP.GetOutputShape(dataLoader))
     xAdv = torch.zeros(size = xShape)
     print(xAdv.shape)
@@ -99,8 +96,6 @@ def MIM_EOT_Wrapper(device, dataLoader, model, decayFactor, epsilonMax, numSteps
         print("Processing Up To: ", tracker)
         xAdv[tracker - batchSize: tracker] = MIM_EOT_Batch(device, xData, yData, model, decayFactor, epsilonMax, numSteps, clipMin, clipMax, targeted, tfunc, numSamples, bs)
     xClean, yClean = DMP.DataLoaderToTensor(dataLoader)
-    if BaRT:
-        ray.shutdown()
     return DMP.TensorToDataLoader(xAdv, yClean)
 
 def MIM_EOT_Batch(device, x,y, model, decayFactor, epsilonMax, numSteps, clipMin, clipMax, targeted, tfunc, numSamples = 100, bs = 8):
@@ -224,7 +219,8 @@ def PGDNativeAttack(device, dataLoader, model, epsilonMax, numSteps, clipMin, cl
 
 # Main attack method, takes in a list of models and a clean data loader
 # Returns a dataloader with the adverarial samples and corresponding clean labels
-def SelfAttentionGradientAttackProto(device, epsMax, epsStep, numSteps, modelListPlus, dataLoader, clipMin, clipMax, alphaLearningRate, fittingFactor, advLoader=None, numClasses=10, decay = 0, samples = 4, BaRT = False):
+#Main implementation of the AE-SAGA attack
+def SelfAttentionGradientAttack_EOT(device, epsMax, epsStep, numSteps, modelListPlus, dataLoader, clipMin, clipMax, alphaLearningRate, fittingFactor, advLoader=None, numClasses=10, decay = 0, samples = 4):
     #samples = 2
     xClean, yClean = DMP.DataLoaderToTensor(dataLoader)
     if advLoader is not None:
@@ -251,7 +247,7 @@ def SelfAttentionGradientAttackProto(device, epsMax, epsStep, numSteps, modelLis
         dFdX = torch.zeros(numSamples, xShape[0], xShape[1],xShape[2])  # Change to the math here to take in account all objecitve functions
         for m in range(0, len(modelListPlus)):
             if "BaRT" in modelListPlus[m].modelName or "TiT" in modelListPlus[m].modelName:
-                nsamp = 2#samples
+                nsamp = samples
             else:
                 nsamp = 1
             dCdXTemp = FGSMNativeGradient(device, dataLoaderCurrent, modelListPlus[m], samples = nsamp)
@@ -773,6 +769,7 @@ def CheckConditionOne(f, checkPointIndex, checkPoints, targeted):
 
 #Native (no attack library) implementation of the MIM attack in Pytorch 
 #This is only for the L-infinty norm and cross entropy loss function 
+#This implementaiton is very GPU memory intensive
 def AutoAttackNativePytorch(device, dataLoader, model, epsilonMax, etaStart, numSteps, clipMin, clipMax, targeted):
     #Setup attack variables:
     decrement = 0.03
