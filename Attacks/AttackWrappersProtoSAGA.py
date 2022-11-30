@@ -61,7 +61,6 @@ def MIMNativePytorch_cnn(device, dataLoader, model, decayFactor, epsilonMax, eps
     advLoader = DMP.TensorToDataLoader(xAdv, yClean, transforms= None, batchSize= dataLoader.batch_size, randomizer=None) #use the same batch size as the original loader
     return advLoader
 
-# This is terribly coded
 def ComputeAutoAttackCheckpoints(nIter):
     # P list according to the paper
     p = []
