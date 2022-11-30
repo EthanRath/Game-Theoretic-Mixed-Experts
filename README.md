@@ -26,7 +26,9 @@ To Generate all samples to create the Game table:
 	experiments), and what type of experiments to run ("ensemble" to attack each pair of defenses with AE-SAGA, "Transfer"
 	to run transfer attacks (CIFAR-10 only), "sequential" to run APGD/MIME on single model defenses)
 
-3. Run GaME.py
+To generate and solve the Game table:
+
+1. Run GaME.py
 
 	a. The file has 4 parameters: the dataset being used ("tiny" or "cifar10"), the maximum ensemble size n, what voting type
 	("fh" or "fs"), and whether to use a uniform ensemble distribution ("true" or "false").
