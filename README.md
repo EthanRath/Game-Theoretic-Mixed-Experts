@@ -32,3 +32,9 @@ To generate and solve the Game table:
 
 	a. The file has 4 parameters: the dataset being used ("tiny" or "cifar10"), the maximum ensemble size n, what voting type
 	("fh" or "fs"), and whether to use a uniform ensemble distribution ("true" or "false").
+
+New Attacks:
+
+1. MIME "MIM_EOT_Wrapper" found in "Attacks/AttackWrappersProtoSAGA.py"
+
+2. AE-SAGA "SelfAttentionGradientAttack_EOT" found in "Attacks/AttackWrappersProtoSAGA.py"
