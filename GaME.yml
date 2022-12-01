@@ -69,4 +69,4 @@ dependencies:
     - virtualenv==20.16.4
     - wrapt==1.14.1
     - zipp==3.6.0
-prefix: C:\Users\ethan\anaconda3\envs\Help
+prefix: C:\Users\user\anaconda3\envs\GaME
