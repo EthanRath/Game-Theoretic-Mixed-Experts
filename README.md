@@ -2,7 +2,7 @@
 
 This is a work in progress, some features still need to be refined for ease of use.
 
-Code repository for "Game Theoretic Mixed Experts for Combinational Adversarial Machine Learning"
+Code repository for "Game Theoretic Mixed Experts for Combinational Adversarial Machine Learning" (https://arxiv.org/abs/2211.14669)
 
 Conda environment file can be found in GaME.yml. Creating the environment directly from the file doesn't always work, but it can
 be a useful way to see all the library versions used. Notable version restrictions:
@@ -17,7 +17,7 @@ To Generate all samples to create the Game table:
 	
 	a. The code currently supports the following model types: Vanilla. BaRT, Trash is Treasure, FAT, and SNN
 	
-	b. All models used in the paper will be uploaded to google drive upon publication
+	b. All models used in the paper can be found at https://drive.google.com/drive/folders/1syJB5Ge4Awc6yb6HSQH6IcVN_UQBhCjx?usp=sharing
 	
 	c. The code may have to be adjusted to properly load and handle new model types, see Automate.py/LoadModels
 2. run Automate.py for CIFAR-10 and Automate_TIN.py for Tiny ImageNet
