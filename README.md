@@ -17,7 +17,7 @@ To Generate all samples to create the Game table:
 	
 	a. The code currently supports the following model types: Vanilla. BaRT, Trash is Treasure, FAT, and SNN
 	
-	b. All models used in the paper can be found at https://drive.google.com/drive/folders/1syJB5Ge4Awc6yb6HSQH6IcVN_UQBhCjx?usp=sharing
+	b. All models used in the paper will be uploaded to google drive upon publication
 	
 	c. The code may have to be adjusted to properly load and handle new model types, see Automate.py/LoadModels
 2. run Automate.py for CIFAR-10 and Automate_TIN.py for Tiny ImageNet
