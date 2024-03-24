@@ -2,7 +2,7 @@
 
 This is a work in progress, some features still need to be refined for ease of use.
 
-Code repository for "Game Theoretic Mixed Experts for Combinational Adversarial Machine Learning" (https://arxiv.org/abs/2211.14669)
+Code repository for "Game Theoretic Mixed Experts for Combinational Adversarial Machine Learning"
 
 Conda environment file can be found in GaME.yml. Creating the environment directly from the file doesn't always work, but it can
 be a useful way to see all the library versions used. Notable version restrictions:
